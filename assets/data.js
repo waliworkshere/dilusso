@@ -1,4 +1,4 @@
-/* Dilusso catalogue data. Edit this file to change products, branches and contact details. */
+/* Dilusso catalogue data. Edit this file to change products, countries and contact details. */
 window.DILUSSO = {
   contact: {
     name: "Omran Aldwaik",
@@ -9,15 +9,16 @@ window.DILUSSO = {
   },
 
   categories: [
-    { id: "kitchens", name: "Kitchens", ar: "مطابخ", blurb: "Complete kitchens built around Dilusso fittings, from handleless U-shapes to classic islands." },
-    { id: "hinges", name: "Hinges", ar: "مفصلات", blurb: "Concealed soft-close hinges for every door angle, frame and finish." },
-    { id: "drawers", name: "Drawer Systems", ar: "أنظمة الأدراج", blurb: "Slim-box drawers, inner drawers and full-extension runners." },
-    { id: "baskets", name: "Pull-out Baskets", ar: "سلال سحب", blurb: "Side pull-outs, pantry towers, corner units and under-sink storage." },
-    { id: "lifts", name: "Lift & Wardrobe Fittings", ar: "أنظمة الرفع", blurb: "Lift-up flap fittings and pull-down wardrobe rails." },
-    { id: "sinks", name: "Sinks & Faucets", ar: "أحواض وخلاطات", blurb: "Stainless and granite sinks with matching pull-down faucets." },
-    { id: "hoods", name: "Hoods", ar: "شفاطات", blurb: "Chimney, island and slim telescopic cooker hoods." },
-    { id: "doors", name: "Doors & Wardrobes", ar: "أبواب وخزائن", blurb: "Interior doors and fitted wardrobe fronts in lacquer and veneer." },
-    { id: "handles", name: "Handles & Finishes", ar: "مقابض وتشطيبات", blurb: "Bar handles and cabinet door finishes to complete the look." }
+    { id: "kitchens", name: "Kitchens", ar: "مطابخ", tag: "Complete kitchens, planned around the way you cook.", blurb: "Complete kitchens built around Dilusso fittings, from handleless U-shapes to classic islands." },
+    { id: "hinges", name: "Hinges", ar: "مفصلات", tag: "Doors that close softly, every single time.", blurb: "Concealed soft-close hinges for every door angle, frame and finish." },
+    { id: "joints", name: "Plastic Cabinet Joints", ar: "وصلات بلاستيكية", tag: "Small parts that keep a cabinet square for years.", blurb: "Plastic corner blocks, cam connectors, plinth legs and shelf supports that hold cabinets together." },
+    { id: "drawers", name: "Drawer Systems", ar: "أنظمة الأدراج", tag: "Full extension, silent close, heavy loads.", blurb: "Slim-box drawers, inner drawers and full-extension runners." },
+    { id: "baskets", name: "Pull-out Baskets", ar: "سلال سحب", tag: "Every corner of the cabinet, brought out to you.", blurb: "Side pull-outs, pantry towers, corner units and under-sink storage." },
+    { id: "lifts", name: "Lift & Wardrobe Fittings", ar: "أنظمة الرفع", tag: "Wall units that open upward and stay where you leave them.", blurb: "Lift-up flap fittings and pull-down wardrobe rails." },
+    { id: "sinks", name: "Sinks & Faucets", ar: "أحواض وخلاطات", tag: "Steel and granite, shaped for everyday cooking.", blurb: "Stainless and granite sinks with matching pull-down faucets." },
+    { id: "hoods", name: "Hoods", ar: "شفاطات", tag: "Clean air above every hob.", blurb: "Chimney, island and slim telescopic cooker hoods." },
+    { id: "doors", name: "Doors & Wardrobes", ar: "أبواب وخزائن", tag: "Doors and wardrobes, made to measure.", blurb: "Interior doors and fitted wardrobe fronts in lacquer and veneer." },
+    { id: "handles", name: "Handles & Finishes", ar: "مقابض وتشطيبات", tag: "The finish your hand touches first.", blurb: "Bar handles and cabinet door finishes to complete the look." }
   ],
 
   products: [
@@ -55,6 +56,19 @@ window.DILUSSO = {
     { id: "DH-AL", cat: "hinges", name: "Aluminium Frame Hinge", img: "images/products/hinge-frame.svg",
       desc: "Made for aluminium-frame and glass doors, with a narrow cup and soft-close damper.",
       specs: [["Door type","Aluminium frame, 20–22 mm"],["Cup","Narrow"],["Damping","Soft-close"],["Finish","Nickel"]] },
+
+    { id: "DJ-CB", cat: "joints", name: "Plastic Corner Block Joint", img: "images/products/joint-corner.svg",
+      desc: "Reinforcing corner block that joins cabinet sides, tops and backs at a true 90°.",
+      specs: [["Material","ABS plastic"],["Colours","White, grey, brown"],["Fixing","4 screws, 3.5–4 mm"],["Use","Carcass corners and worktop fixing"]] },
+    { id: "DJ-CL", cat: "joints", name: "Cam Lock Connector", img: "images/products/joint-cam.svg",
+      desc: "Two-part connector for flat-pack and site-assembled cabinets, tightened with a quarter turn.",
+      specs: [["Cam diameter","15 mm"],["Board thickness","16–19 mm"],["Bolt","Steel dowel, 24–34 mm"],["Cap","Plastic, colour matched"]] },
+    { id: "DJ-PL", cat: "joints", name: "Adjustable Plinth Leg", img: "images/products/joint-plinth.svg",
+      desc: "Height-adjustable plastic leg with a plinth clip, for levelling base units on uneven floors.",
+      specs: [["Height","100–150 mm"],["Adjustment","±25 mm, from inside the cabinet"],["Load","150 kg per leg"],["Material","Reinforced PP"]] },
+    { id: "DJ-SS", cat: "joints", name: "Shelf Support Pins", img: "images/products/joint-shelf.svg",
+      desc: "Push-in shelf supports with an anti-slip lip, for adjustable shelving in kitchen and wardrobe units.",
+      specs: [["Hole","5 mm"],["Material","Clear or white plastic"],["Load","15 kg per set of 4"],["Pack","100 pieces"]] },
 
     { id: "DD-SB", cat: "drawers", name: "Slim-Box Drawer", img: "images/products/drawer-tandem.svg",
       desc: "Thin double-wall steel sides on soft-close full-extension runners.",
@@ -143,20 +157,13 @@ window.DILUSSO = {
   ],
 
   countries: [
-    { id: "it", name: "Italy", ar: "إيطاليا", role: "Design & engineering", text: "Product design, hinge and drawer engineering, and finish development." },
-    { id: "tr", name: "Turkey", ar: "تركيا", role: "Manufacturing", text: "Production of fittings, pull-out systems, cabinet fronts and doors." },
-    { id: "eg", name: "Egypt", ar: "مصر", role: "Manufacturing & regional supply", text: "Kitchen and wardrobe production and supply across North Africa." },
-    { id: "om", name: "Oman", ar: "عُمان", role: "8 showrooms in Muscat", text: "Showrooms, design service, site measurement and installation." }
-  ],
-
-  muscat: [
-    { area: "Al Khuwair", note: "Flagship showroom" },
-    { area: "Ghala", note: "Industrial area · trade counter" },
-    { area: "Bausher", note: "Kitchen showroom" },
-    { area: "Al Mabelah", note: "Showroom" },
-    { area: "Seeb", note: "Showroom" },
-    { area: "Ruwi", note: "Hardware showroom" },
-    { area: "Al Amerat", note: "Showroom" },
-    { area: "Al Khoudh", note: "Showroom" }
+    { id: "om", name: "Oman", ar: "عُمان", city: "Muscat", img: "images/countries/oman.svg" },
+    { id: "sa", name: "Saudi Arabia", ar: "المملكة العربية السعودية", city: "Riyadh", img: "images/countries/saudi.svg" },
+    { id: "eg", name: "Egypt", ar: "مصر", city: "Cairo", img: "images/countries/egypt.svg" },
+    { id: "tr", name: "Turkey", ar: "تركيا", city: "Istanbul", img: "images/countries/turkey.svg" },
+    { id: "it", name: "Italy", ar: "إيطاليا", city: "Rome", img: "images/countries/italy.svg" },
+    { id: "es", name: "Spain", ar: "إسبانيا", city: "Barcelona", img: "images/countries/spain.svg" },
+    { id: "cn", name: "China", ar: "الصين", city: "Beijing", img: "images/countries/china.svg" },
+    { id: "my", name: "Malaysia", ar: "ماليزيا", city: "Kuala Lumpur", img: "images/countries/malaysia.svg" }
   ]
 };

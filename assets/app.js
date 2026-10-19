@@ -46,9 +46,45 @@ function route(){
 }
 window.addEventListener("hashchange", route);
 
-/* ---------- home: categories, countries ---------- */
+/* ---------- home: showcase, categories, countries, rooms ---------- */
+const SHOW = ["kitchens","hinges","joints","drawers","baskets","sinks","hoods","doors"];
+let scIdx = 0, scTimer = null;
+function renderShowcase(){
+  const cats = SHOW.map(id => catById[id]).filter(Boolean);
+  $("#scStage").innerHTML = cats.map((c, i) => {
+    const p = D.products.find(x => x.cat === c.id);
+    return `<article class="sc-slide ${p.photo ? "photo" : ""}" data-i="${i}" ${i ? "hidden" : ""}>
+      <div class="sc-img">${imgTag(p)}</div>
+      <div class="sc-cap"><span class="sc-n">${String(i+1).padStart(2,"0")} / ${String(cats.length).padStart(2,"0")}</span>
+      <h3>${c.name}</h3><p>${c.tag}</p><a class="link" href="#products-${c.id}">Learn more <svg width="16" height="16"><use href="#i-arrow"/></svg></a></div></article>`;
+  }).join("");
+  $("#scTabs").innerHTML = cats.map((c, i) => `<button type="button" role="tab" data-sc="${i}" aria-selected="${!i}" aria-label="${c.name}"><span></span></button>`).join("");
+  $("#scTabs").addEventListener("click", e => { const b = e.target.closest("[data-sc]"); if(b){ showSlide(+b.dataset.sc); restart(); } });
+  const sc = $("#showcase");
+  sc.addEventListener("mouseenter", () => clearInterval(scTimer));
+  sc.addEventListener("mouseleave", restart);
+  restart();
+}
+function showSlide(i){
+  const slides = $$(".sc-slide"); scIdx = (i + slides.length) % slides.length;
+  slides.forEach(s => s.hidden = +s.dataset.i !== scIdx);
+  $$("#scTabs [data-sc]").forEach(b => b.setAttribute("aria-selected", String(+b.dataset.sc === scIdx)));
+}
+function restart(){
+  clearInterval(scTimer);
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  scTimer = setInterval(() => showSlide(scIdx + 1), 5000);
+}
+const ROOM_CARDS = [
+  ["kitchen","Kitchen","Hinges, slim-box drawers, pull-out baskets, sinks and hoods.","minimal"],
+  ["bedroom","Wardrobe & bedroom","Wardrobe hinges, pull-down rails, inner drawers and doors.","classic"],
+  ["living","Living room","Media walls with push-open hinges, lift-up fittings and handles.","coastal"],
+  ["dining","Dining room","Sideboards with soft-close runners, handles and veneer doors.","omani"]
+];
 function renderHome(){
   $("#statLines").textContent = D.categories.length;
+  $("#statProducts").textContent = D.products.length;
+  renderShowcase();
   $("#catGrid").innerHTML = D.categories.map(c => {
     const items = D.products.filter(p => p.cat === c.id);
     const pics = items.slice(0, 3);
@@ -58,13 +94,26 @@ function renderHome(){
       <div class="body"><div><h3>${c.name}</h3><span class="ar">${c.ar}</span><span class="n">${items.length} products</span></div>
       <span class="arrow"><svg width="16" height="16"><use href="#i-arrow"/></svg></span></div></a>`;
   }).join("");
-  const countries = D.countries.map(c => `<div class="country ${c.id}"><span class="code">${c.id}</span><b>${c.name} <span class="ar" style="font-weight:400;color:var(--muted);font-size:.9rem">${c.ar}</span></b><span class="role">${c.role}</span><p>${c.text}</p></div>`).join("");
-  $("#countryList").innerHTML = countries;
-  $("#countryList2").innerHTML = countries;
-  $("#showrooms").innerHTML = D.muscat.map((b, i) => `<div class="showroom"><span class="n">Branch ${String(i+1).padStart(2,"0")}</span><b>${b.area}</b><span>${b.note}</span>
-    <a href="https://www.google.com/maps/search/${encodeURIComponent("Dilusso " + b.area + " Muscat Oman")}" target="_blank" rel="noopener">Directions ↗</a></div>`).join("");
-  $("#footCats").outerHTML = D.categories.slice(0, 6).map(c => `<a href="#products-${c.id}">${c.name}</a>`).join("");
+  $("#countryChips").innerHTML = D.countries.map(c => `<a class="cchip" href="#global"><img src="${src(c.img)}" alt="" loading="lazy"><span>${c.name}</span></a>`).join("");
+  $("#countryGrid").innerHTML = D.countries.map(c => `<article class="ccard-c"><div class="cimg"><img src="${src(c.img)}" alt="Illustration of ${c.city}, ${c.name}" loading="lazy"></div>
+    <div class="cbody"><h3>${c.name}</h3><span class="ar">${c.ar}</span></div></article>`).join("");
+  $("#roomCards").innerHTML = ROOM_CARDS.map(([room, name, text, style]) => `<a class="room-card" href="#studio" data-room-open="${room}" data-style-open="${style}">
+    <img src="${src(`images/rooms/${room}-${style}.jpg`)}" alt="" loading="lazy"><div class="rc-body"><h3>${name}</h3><p>${text}</p><span class="link">Design this room <svg width="16" height="16"><use href="#i-arrow"/></svg></span></div></a>`).join("");
+  $("#footCats").outerHTML = D.categories.slice(0, 7).map(c => `<a href="#products-${c.id}">${c.name}</a>`).join("");
+  $("#hCountry").innerHTML = D.countries.map(c => `<option>${c.name}</option>`).join("") + "<option>Other</option>";
+  $("#hProduct").innerHTML = D.categories.map(c => `<option>${c.name}</option>`).join("");
 }
+$("#hForm") && $("#hForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("#hName").value.trim(), ph = $("#hPhone").value.replace(/[\s-]/g, "");
+  $("#ehName").textContent = name ? "" : "Enter your name.";
+  const okPh = /^\+?\d{7,15}$/.test(ph);
+  $("#ehPhone").textContent = okPh ? "" : "Enter a phone number with country code, e.g. +968 9910 7600.";
+  if(!name || !okPh) return;
+  const co = $("#hCompany").value.trim();
+  const msg = `Hello Dilusso, new inquiry:\nName: ${name}${co ? "\nCompany: " + co : ""}\nBuyer type: ${$("#hBuyer").value}\nCountry: ${$("#hCountry").value}\nProduct interest: ${$("#hProduct").value}\nPhone: ${ph}\n${$("#hMsg").value.trim()}`;
+  const a = $("#hWa"); a.href = waLink(msg); a.hidden = false; toast("Inquiry ready. Tap Send on WhatsApp.");
+});
 
 /* ---------- catalogue ---------- */
 let query = "";
@@ -115,6 +164,7 @@ document.addEventListener("click", e => {
   const d = e.target.closest("[data-detail]"); if(d){ showProduct(d.dataset.detail); return; }
   const a = e.target.closest("[data-add]"); if(a){ addToList(a.dataset.add, 1); renderCatalog(); return; }
   const o = e.target.closest("[data-open]"); if(o){ setTimeout(() => showProduct(o.dataset.open), 50); }
+  const rc = e.target.closest("[data-room-open]"); if(rc && S){ S.room = rc.dataset.roomOpen; applyStyle(rc.dataset.styleOpen); renderStudio(); }
 });
 $("#mAdd").addEventListener("click", () => { if(!open) return; if(enq[open]) delete enq[open]; else enq[open] = 1; saveList(); syncAddBtn(); renderCatalog(); });
 
